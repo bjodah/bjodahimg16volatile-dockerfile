@@ -1,8 +1,9 @@
 #!/bin/bash
 IMAGE=${1:-bjodahimg16volatile}
 TAG=${2:-latest}
-mkdir -p match3-build
-docker run --rm --name bjodahimg16volatile-tests -v match3-build:/match3-build -it $IMAGE:$TAG \
+ABS_REPO_PATH=$(unset CDPATH && cd "$(dirname "$0")/.." && echo $PWD)
+mkdir -p ${ABS_REPO_PATH}/match3-build
+docker run --rm --name bjodahimg16volatile-tests -e TERM -v ${ABS_REPO_PATH}/match3-build:/match3-build -it $IMAGE:$TAG \
        bash -c "\
 cd /opt/emsdk_portable && ./emsdk activate latest && . emsdk_env.sh && \
 cd /match3-build && which em++ && git clone --recursive git://github.com/modern-cpp-examples/match3.git && \
